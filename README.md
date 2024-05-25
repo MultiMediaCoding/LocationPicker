@@ -1,11 +1,8 @@
 # LocationPicker
 
-<br>
-
 <img width="548" alt="Demo Image" src="https://github.com/MultiMediaCoding/LocationPicker/assets/110828289/f71e5298-1c03-4718-8db4-0d952b5949ad">
 
-<br>
-
+## Description
 
 A Swift Package for SwiftUI that allows users to pick a location on a map. This package provides an easy-to-use `LocationPicker` view that can be integrated into your SwiftUI projects.
 
