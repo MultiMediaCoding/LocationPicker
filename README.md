@@ -12,7 +12,7 @@ A Swift Package for SwiftUI that allows users to pick a location on a map. This 
 - Bind latitude and longitude to your ViewModel.
 - Customizable map height and width.
 
-### Swift Package Manager
+## Swift Package Manager
 
 To install `LocationPicker` using Swift Package Manager, add it to your `Package.swift` file:
 
