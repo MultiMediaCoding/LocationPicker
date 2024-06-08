@@ -3,34 +3,29 @@ import MapKit
 
 @available(iOS 17.0, macOS 14.0, tvOS 16.0, watchOS 9.0, *)
 public struct LocationPicker: View {
+    @StateObject var viewModel = ViewModel()
     
     @Binding var lat: Double
     @Binding var lon: Double
-    
-    var region: MKCoordinateRegion {
-        MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: lat, longitude: lon), span: MKCoordinateSpan(latitudeDelta: 0.0005, longitudeDelta: 0.0005))
-    }
     
     public init(lat: Binding<Double>, lon: Binding<Double>) {
         self._lat = lat
         self._lon = lon
     }
-
+    
     public var body: some View {
         VStack{
             ZStack{
-
-                Map(coordinateRegion: .constant(region),
-                    interactionModes: MapInteractionModes.all,
-                    showsUserLocation: true)
+                
+                Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .onChange(of: region.center.latitude) { _, newLat in
+                    .onChange(of: viewModel.region.center.latitude) { _, newLat in
                         lat = newLat
                     }
-                    .onChange(of: region.center.longitude) { _, newLong in
+                    .onChange(of: viewModel.region.center.longitude) { _, newLong in
                         lon = newLong
                     }
-
+                
                 
                 ZStack{
                     Circle()
@@ -51,8 +46,25 @@ public struct LocationPicker: View {
                 .shadow(color: .accentColor.opacity(0.3), radius: 10, x: 0.0, y: 0.0)
                 .offset(x: 0, y: -28)
             }
- 
+            
         }
         .cornerRadius(12)
+        .onAppear {
+            viewModel.region.center.latitude = lat
+            viewModel.region.center.longitude = lon
+        }
     }
+}
+
+@available(iOS 13.0, *)
+class ViewModel: ObservableObject {
+    @Published var region = MKCoordinateRegion.london
+}
+
+extension MKCoordinateRegion {
+    static let london = MKCoordinateRegion(
+        center: .init(latitude: 51.05007, longitude: 0),
+        latitudinalMeters: 100000,
+        longitudinalMeters: 100000
+    )
 }
